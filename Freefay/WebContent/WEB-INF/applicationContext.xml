@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd   	
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    ">
+
+	<!-- telling container to scan our classes containing Spring annotations -->
+	<context:component-scan base-package="com.project.freefay" />
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="searchSystemEnvironment" value="true" />
+	</bean>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<!-- for-cloud-build-freefrae -->
+<!-- 		<property name="url" value="jdbc:mysql://127.11.245.130:3306/freefay" /> -->
+<!-- 		<property name="username" value="adminnYJItHR" /> -->
+<!-- 		<property name="password" value="vRHPl5qYtYII" /> -->
+
+
+		<!-- for-cloud-build-freefay -->
+		<!-- <property name="url" value="jdbc:mysql://127.9.87.130:3306/freefay" 
+			/> -->
+		<!-- <property name="username" value="adminTHeEuRQ" /> -->
+		<!-- <property name="password" value="VXDBzDFPxSEx" /> -->
+		<!-- for-local-build- -->
+
+		<property name="url" value="jdbc:mysql://localhost:3306/freefay" />
+		<property name="username" value="root" />
+		<property name="password" value="03144214002" />
+
+	</bean>
+
+	<!-- Hibernate Configuration -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- Package in which our annotated Entity classes are defined -->
+		<property name="packagesToScan"
+			value="com.project.freefay.entity, com.project.freefay.dao.query" />
+		<property name="hibernateProperties">
+			<value>hibernate.show_sql=true</value>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="persistenceExceptionTranslationPostProcessor"
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<!-- Activates annotation based transaction management -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- mailing bean configuration -->
+	<!-- <context:component-scan base-package="com.project.freefay.mail" /> -->
+	<!-- <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> -->
+	<!-- <property name="host" value="smtp.gmail.com" /> -->
+	<!-- <property name="port" value="587" /> -->
+	<!-- <property name="username" value="arslanyasinwattoo@gmail.com" /> -->
+	<!-- <property name="password" value="arslan-03144214002" /> -->
+	<!-- <property name="javaMailProperties"> -->
+	<!-- <props> -->
+	<!-- <prop key="mail.transport.protocol">smtp</prop> -->
+	<!-- <prop key="mail.smtp.auth">true</prop> -->
+	<!-- <prop key="mail.smtp.starttls.enable">true</prop> -->
+	<!-- <prop key="mail.debug">true</prop> -->
+
+	<!-- </props> -->
+	<!-- </property> -->
+
+	<!-- </bean> -->
+	<!-- <bean id="simpleRegistrationService" class="com.project.freefay.mail.SimpleRegistrationService"> -->
+	<!-- <property name="mailSender" ref="mailSender" /> -->
+	<!-- </bean> -->
+	<!-- resource.loader=webapp -->
+	<!-- webapp.resource.loader.class=org.apache.velocity.tools.view.WebappResourceLoader -->
+	<!-- webapp.resource.loader.path=/WEB-INF/velocity/ -->
+	<!-- <bean id="velocityEngine" -->
+	<!-- class="org.springframework.ui.velocity.VelocityEngineFactoryBean"> -->
+	<!-- <property name="velocityProperties"> -->
+	<!-- <value> -->
+	<!-- resource.loader=class -->
+	<!-- class.resource.loader.class= -->
+	<!-- org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader -->
+	<!-- </value> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+	<!-- <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer"> -->
+	<!-- <property name="resourceLoaderPath" value="com.project.freefay.mailTemplates"/> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean"> -->
+	<!-- <property name="velocityProperties"> -->
+	<!-- <props> -->
+	<!-- <prop key="resource.loader">class</prop> -->
+	<!-- <prop key="class.resource.loader.class"> -->
+	<!-- org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader -->
+	<!-- </prop> -->
+	<!-- </props> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+	<!-- <bean id="positionManagerTarget" class="com.project.freefay.mail.Mail"> -->
+	<!-- <property name="velocityEngine"><ref bean="velocityEngine"/></property> -->
+	<!-- </bean> -->
+</beans>
